@@ -89,7 +89,7 @@ class BaseTrainerTest(unittest.TestCase):
 
         trainer._train_epoch(x_data, y_data, False)
 
-        expected_calls = [[x_data[i], y_data[i]] for i in range(10)]
+        expected_calls = [[x_data[i:i+1], y_data[i:i+1]] for i in range(10)]
         self._assert_args_correct(trainer._train_step.call_args_list, expected_calls, "_train_step")
 
     def _assert_args_correct(self, mock_call_args_list, expected_calls, mock_object_name):
@@ -100,7 +100,8 @@ class BaseTrainerTest(unittest.TestCase):
         for call, expected_args in zip(mock_call_args_list, expected_calls):
             actual_args, _ = call
             for actual_arg, expected_arg in zip(actual_args, expected_args):
-                self.assertTrue(np.array_equal(actual_arg, expected_arg))
+                self.assertTrue(np.array_equal(actual_arg, expected_arg),
+                                "{} does not equal {}".format(actual_arg, expected_arg))
 
 
 if __name__ == "__main__":

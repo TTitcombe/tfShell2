@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/TTitcombe/tfShell2.svg?branch=master)](https://travis-ci.com/TTitcombe/tfShell2)
+
 # tfShell2
 
 *Note: tfShell2 is under development*

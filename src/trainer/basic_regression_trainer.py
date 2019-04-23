@@ -5,14 +5,17 @@ from .base_trainer import BaseTrainer
 
 class BasicRegressionTrainer(BaseTrainer):
     """
-    This is an example trainer class designed to show how the trainer should be implemented in practice.
-    This trainer implements the basic mean-squared error loss (this is also used for the model score).
+    This is an example trainer class designed to show how the trainer
+    should be implemented in practice.
+    This trainer implements the basic mean-squared error loss (
+    this is also used for the model score).
     This trainer works with basic regression models.
     """
     def __init__(self, model, batch_size=-1):
         super().__init__(model, batch_size)
 
-        # If there are any implementation-specific parameters, add logic for them here
+        # If there are any implementation-specific parameters,
+        # add logic for them here
         self.mse = tf.keras.losses.MeanSquaredError()
 
     @tf.function

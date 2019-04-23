@@ -85,7 +85,7 @@ class BaseTrainer:
         :return: loss, score for the final training step of the epoch
         """
         # If batch size is negative, just take all the data at once
-        bs = self._batch_size if self._batch_size > 1 else x.shape[0]
+        bs = self._batch_size if self._batch_size >= 1 else x.shape[0]
         n_steps = math.ceil(x.shape[0] / bs)
 
         for step in range(n_steps):

@@ -22,8 +22,11 @@ class BaseTrainer:
         self.model = model
         self._batch_size = batch_size
 
+        # TODO allow user to select optimiser and learning rate
+        self.optimiser = tf.keras.optimizers.SGD()
+
     def train(self, x_train, y_train, x_val=None, y_val=None,
-              verbose=False, report_every=1):
+              verbose=False, report_every=1, n_epochs=100):
         """
         Train the model on provided data
         :param x_train: numpy array containing training data.
@@ -37,6 +40,7 @@ class BaseTrainer:
                              between reporting of performance
         :param verbose: optional bool. If true, report results from every
                         training step during report epochs. Default false.
+        :param n_epochs: optional int. Number of training epochs. Default 100.
         :return: final training score and validation score
                  (None if x_val not provided)
         """
@@ -65,7 +69,7 @@ class BaseTrainer:
         #####################
         # Loop through epochs
         #####################
-        for epoch in range(self.n_epochs):
+        for epoch in range(n_epochs):
             training_loss, \
                 training_score = self._train_epoch(x_train, y_train, verbose)
 
@@ -132,8 +136,9 @@ class BaseTrainer:
             y_model = self.model(x_batch)
             step_loss = self._loss(y_model, y_batch)
         gradients = tape.gradient(step_loss, self.model.trainable_variables)
-        self.opimiser.apply_gradients(zip(gradients,
-                                          self.model.trainable_variables))
+
+        self.optimiser.apply_gradients(zip(gradients,
+                                           self.model.trainable_variables))
 
         step_score = self.validate(y_model, y_batch)
         return step_loss, step_score

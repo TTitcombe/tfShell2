@@ -12,6 +12,9 @@ All you have to do is supply the model.
 ## How to use
 See the **examples** folder.
 
+Run `python -m examples.basic_regression_trainer_example` to see an autoencoder 
+trained by the `BasicRegressionTrainer` at the task of learning the identity mapping, f(x)=x.
+
 ## Structure
 
 ### Trainer

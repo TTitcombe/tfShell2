@@ -47,24 +47,12 @@ class BaseTrainer:
         ################
         # Validate input
         ################
-
         # report_every should not be negative. Quietly set this to every
         # epoch if it is, as this would not be disastrous to training
         # if not intended by user
         report_every = max(1, report_every)
 
-        # Check x and y train are compatible
-        if x_train.shape[0] != y_train.shape[0]:
-            raise RuntimeError("BaseTrainer.train: x_train and y_train have "
-                               "a different number of data points. {} and "
-                               "{}, respectively.".format(x_train.shape[0],
-                                                          y_train.shape[0]))
-
-        # Check we have x and y validation data
-        if (x_val is None and y_val is not None) or \
-                (x_val is not None and y_val is None):
-            raise RuntimeError("BaseTrainer.train: You must either provide "
-                               "both validation data and labels, or neither.")
+        self._validate_training(x_train, y_train, x_val, y_val)
 
         #####################
         # Loop through epochs
@@ -168,6 +156,33 @@ class BaseTrainer:
         raise NotImplementedError("BaseTrainer.validate: validate must be "
                                   "implemented in "
                                   "a class which inherits BaseTrainer.")
+
+    def _validate_training(self, x_train, y_train, x_val, y_val):
+        """
+        Evaluate if the training data and parameters are valid.
+        In general, this method should be overwritten by an
+        inheriting class for more expressive training.
+        """
+        # Check x and y train are compatible
+        if x_train.shape[0] != y_train.shape[0]:
+            raise RuntimeError("BaseTrainer.train: x_train and y_train have "
+                               "a different number of data points. {} and "
+                               "{}, respectively.".format(x_train.shape[0],
+                                                          y_train.shape[0]))
+
+        # Check batch size is, at most, the number of data points
+        if x_train.shape[0] < self._batch_size:
+            raise RuntimeError("BaseTrainer.train: x_train has {} data points "
+                               "and batch size is {}. Batch size must be not "
+                               "greater than the number of data "
+                               "points.".format(x_train.shape[0],
+                                                self._batch_size))
+
+        # Check we have x and y validation data
+        if (x_val is None and y_val is not None) or \
+                (x_val is not None and y_val is None):
+            raise RuntimeError("BaseTrainer.train: You must either provide "
+                               "both validation data and labels, or neither.")
 
     def _exit_training(self, train_loss):
         """

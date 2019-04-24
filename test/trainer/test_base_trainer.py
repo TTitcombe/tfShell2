@@ -31,6 +31,62 @@ class BaseTrainerTest(unittest.TestCase):
             self.fail("_loss should not be implemented in the "
                       "BaseTrainer class")
 
+    def test_that_batch_size_cannot_be_greater_than_train_size(self):
+        model = mock.Mock()
+        trainer = BaseTrainer(model)
+        trainer.batch_size = 10
+
+        x = np.random.random((5, 2))
+        y = np.random.random((5, 1))
+
+        try:
+            trainer._validate_training(x, y, None, None)
+        except RuntimeError:
+            pass
+        else:
+            self.fail("RuntimeError should have been raised because batch "
+                      "size is less than number of training examples.")
+
+    def test_that_x_val_and_y_val_must_both_be_provided(self):
+        model = mock.Mock()
+        trainer = BaseTrainer(model)
+
+        x = np.random.random((10, 2))
+        y = np.random.random((10, 1))
+        x_val = np.random.random((1, 2))
+        y_val = np.random.random((1, 1))
+
+        try:
+            trainer._validate_training(x, y, x_val, None)
+        except RuntimeError:
+            pass
+        else:
+            self.fail("RuntimeError should have been raised because we "
+                      "provided x_val without y_val.")
+
+        try:
+            trainer._validate_training(x, y, None, y_val)
+        except RuntimeError:
+            pass
+        else:
+            self.fail("RuntimeError should have been raised because we "
+                      "provided y_val without x_val.")
+
+    def test_that_x_train_and_y_train_sizes_must_match(self):
+        model = mock.Mock()
+        trainer = BaseTrainer(model)
+
+        x = np.random.random((5, 2))
+        y = np.random.random((10, 1))
+
+        try:
+            trainer._validate_training(x, y, None, None)
+        except RuntimeError:
+            pass
+        else:
+            self.fail("RuntimeError should have been raised because x_train "
+                      "has 5 data points but y_train has 10.")
+
     def test_batch_size_property_must_be_int_like(self):
         model = mock.Mock()
         trainer = BaseTrainer(model)

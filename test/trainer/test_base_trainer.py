@@ -2,7 +2,7 @@ import numpy as np
 import unittest
 from unittest import mock
 
-from src.trainer.base_trainer import BaseTrainer
+from src.trainer import BaseTrainer
 
 
 class BaseTrainerTest(unittest.TestCase):

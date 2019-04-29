@@ -49,4 +49,10 @@ from `BaseTrainer` and implemented the abstract methods.
 
 ### Testers
 *Tester* classes facilitate easy application of an oft-overlooked part of machine learning: unit testing.
-*Note: Testers have not yet been implemented.*
+The tester classes can dynamically add any number of unit tests. Currently, the implementation of testing does not utilise python's `unittest` module; instead, "running" the tests merely evaluates a statement to True or False. 
+
+The aim is to make the tester classes `unittest.TestCase` derivatives, to allow more expressive tests.
+
+At the moment, the only test implemented is a check that a variable changes during testing. If this test fails, then the model is not training; this can occur due to a number of minor and otherwise hard to spot coding errors. Using this test, one can pinpoint the layer in which training stops.
+
+Further work will introduce tests to check that your model converges, that it produces nonsense output for nonsense input, and allow for completely custom tests.

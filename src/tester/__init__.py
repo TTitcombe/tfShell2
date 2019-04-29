@@ -1,1 +1,1 @@
-from .base_tester import BaseTester
+from .base_tester import BaseTester  # noqa F401

@@ -10,7 +10,7 @@ Training loops and exit conditions, logging, model saving and testing will be co
 All you have to do is supply the model.
 
 ## Motivation
-The aims of tfShell2 are two-fold:
+tfShell2 aims to:
 1. Improve the ease with which a variety of models are trained in Tensorflow 2
 2. Improve the ease with which model testing is carried out
 

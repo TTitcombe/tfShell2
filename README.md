@@ -9,13 +9,31 @@
 Training loops and exit conditions, logging, model saving and testing will be controlled **tfShell2** classes. 
 All you have to do is supply the model.
 
+## Motivation
+The aims of tfShell2 are two-fold:
+1. Improve the ease with which a variety of models are trained in Tensorflow 2
+2. Improve the ease with which model testing is carried out
+
+With Tensorflow's Keras api, models can easily be trained using the `fit` method. However, this easy call is not easily compatible
+with models which require more complex or dynamic training. For example, when training Generative Adversarial Networks, which are infamously
+unwilling to converge, you may wish to stop training early if the losses of the two networks follow a certain pattern. If 
+training for a long time, you may wish to save the model when certain training milestones are passed, rather than 
+based on training time. tfShell2's **trainer** classes aim to make more expressive training possible minimal setup required.
+
+Regarding the second point: unit testing is criminally under-applied in machine learning. This is in part due to the hacky, proof-of-concept
+nature of much of ML development, partly because the stochasticity of models does not make them easy to test. 
+
+However, there are certain tests which can be invaluable to a developer: Does my model train? (Do the weights change); Can it converge on simple data?;
+Do I get non-zero output from zero input? 
+tfShell2 aims to facilitate machine learning as software by allowing dynamic addition of custom tests, through use of 
+**tester** classes.
+
 ## How to use
 See the **examples** folder.
 
 Run `python -m examples.basic_regression_trainer_example` to see an autoencoder 
 trained by the `BasicRegressionTrainer` at the task of learning the identity mapping, f(x)=x.
 
-## Structure
 
 ### Trainer
 The main implementation in tfShell2 are *trainer* classes. These classes implement the logic for training your models, 

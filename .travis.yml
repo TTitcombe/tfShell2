@@ -10,9 +10,10 @@ jobs:
         - pip install -r requirements.txt
         - pip install flake8
       script:
-       - flake8 .
+       - flake8 . --max-line-length=127
     - name: "unit tests"
       install:
         - pip install -r requirements.txt
       script:
         - python -m test.trainer.test_base_trainer
+        - python -m test.tester.test_base_tester

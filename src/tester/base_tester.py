@@ -49,12 +49,9 @@ class BaseTester:
             optimiser = tf.keras.optimizers.SGD()
             optimiser.apply_gradients(zip(gradients,
                                           self._model.trainable_variables))
-            var = getattr(self._model, model_variable).numpy
-            print(var)
-            a = np.array([[2.996], [2.996]])
-            c = tf.Variable(a, dtype=tf.float32)
-            print(c)
-            return var == c
+            var = getattr(self._model, model_variable).numpy()
+            original_weight = np.array([[1.], [1.]], dtype=np.float32)
+            return not np.array_equal(var, original_weight)
 
         setattr(self.TestCase, test_name, MethodType(test_model_is_trainable,
                                                      self.TestCase))
@@ -67,8 +64,6 @@ class BaseTester:
 
     def run(self):
         results = {}
-        print(self.list_tests())
         for test in self.list_tests():
-            print(test)
             results[test] = getattr(self.TestCase, test)()
         return results
